@@ -23,7 +23,12 @@
             </div>
 
             <div class="calendar-header">
-                <div class="year-month"></div>
+                <div class="nav">
+                    <button class="nav-btn go-prev" onclick="prevMonth()">&lt;</button>
+                    <div class="year-month" onclick="goToday()"></div>
+                    <button class="nav-btn go-next" onclick="nextMonth()">&gt;</button>
+                </div>
+
                 <div class="calendar-header__monthly-returns returns">
                     <div class="monthly-returns">
                         <span class="monthly-returns__title">월간 매출액 : </span>
@@ -71,18 +76,14 @@
 
         </div>
 
-        <div class="input-section">
+        <!-- <div class="input-section">
             <div class="input-box">
                 <span>일일 매출액 :</span>
                 <input type="text" />
             </div>
-        </div>
+        </div> -->
 
-        <div class="nav">
-            <button class="nav-btn go-prev" onclick="prevMonth()">&lt;</button>
-            <button class="nav-btn go-today" onclick="goToday()">Today</button>
-            <button class="nav-btn go-next" onclick="nextMonth()">&gt;</button>
-        </div>
+
     </section>
 
     <script src="https://kit.fontawesome.com/73fbcb87e6.js" crossorigin="anonymous"></script>

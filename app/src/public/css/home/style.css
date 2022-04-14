@@ -87,6 +87,11 @@ body {
   padding: 10px 0;
 }
 
+.nav {
+  display: flex;
+  align-items: ceneter;
+}
+
 .year-month {
   font-size: 25px;
   font-weight: 900;
@@ -94,6 +99,7 @@ body {
   text-shadow: 2px 2px 2px black;
   position: relative;
   top: 0px;
+  margin: 0 10px;
 }
 
 .returns span {
