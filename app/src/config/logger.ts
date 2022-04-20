@@ -1,9 +1,7 @@
-'use strict';
-
-const { createLogger, transports, format } = require('winston');
-const path = require('path');
-require('winston-daily-rotate-file');
+import { createLogger, format, transports } from 'winston';
+import 'winston-daily-rotate-file';
 const { combine, timestamp, colorize, simple, printf, label } = format;
+import * as appRoot from 'app-root-path';
 
 //Log print
 const printFormat = printf(({ timestamp, label, level, message }) => {
@@ -29,7 +27,7 @@ const options = {
   dailyRotateFileALL: new transports.DailyRotateFile({
     level: 'debug',
     datePattern: 'YYYY-MM-DD',
-    dirname: path.join(__dirname, '..', '..', '/logs', '/all'),
+    dirname: `${appRoot}/logs/all`,
     filename: '%DATE%.all.log',
     maxFiles: 10,
     zippedArchive: true,
@@ -38,7 +36,7 @@ const options = {
   dailyRotateFileERROR: new transports.DailyRotateFile({
     level: 'error',
     datePattern: 'YYYY-MM-DD',
-    dirname: path.join(__dirname, '..', '..', '/logs', '/error'),
+    dirname: `${appRoot}/logs/error`,
     filename: '%DATE%.error.log',
     maxFiles: 30,
     zippedArchive: true,
@@ -58,8 +56,8 @@ if (process.env.NODE_ENV !== 'production') {
   logger.add(options.console);
 }
 
-logger.stream = {
-  write: (message) => logger.info(message),
-};
+// logger.stream = {
+//   write: (message) => logger.info(message),
+// };
 
-module.exports = logger;
+export default logger;

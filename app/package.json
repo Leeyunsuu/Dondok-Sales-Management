@@ -1,10 +1,12 @@
 {
   "dependencies": {
+    "@types/app-root-path": "^1.2.4",
+    "@types/morgan": "^1.9.3",
+    "@types/winston": "^2.4.4",
+    "app-root-path": "^3.0.0",
     "body-parser": "^1.19.2",
     "dotenv": "^16.0.0",
     "ejs": "^3.0.2",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "express": "^4.17.3",
     "express-mysql-session": "^2.1.7",
     "express-session": "^1.17.2",
@@ -16,12 +18,17 @@
     "winston-daily-rotate-file": "^4.6.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.25",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
     "eslint": "^8.10.0",
     "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1",
-    "typescript": "^4.6.2"
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
   },
   "name": "dondok-sales-management",
   "version": "1.0.0",
@@ -30,8 +37,10 @@
     "login-page": "bin/www.js"
   },
   "scripts": {
-    "start": "pm2 start login-page --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --exec ts-node src/bin/www.ts",
+    "copy-files": "cp -r src/public/ dist/public/ && cp -r src/views/ dist/views/ && cp -r src/routes/ dist/routes/ && cp -r src/models/ dist/models/ && cp -r src/config/ dist/config/",
+    "build": "tsc && npm run copy-files",
+    "start": "node dist/bin/www.js"
   },
   "author": "",
   "license": "MIT",
