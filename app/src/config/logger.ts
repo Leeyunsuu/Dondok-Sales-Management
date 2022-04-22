@@ -56,8 +56,10 @@ if (process.env.NODE_ENV !== 'production') {
   logger.add(options.console);
 }
 
-// logger.stream = {
-//   write: (message) => logger.info(message),
-// };
+const stream = {
+  write(message: string) {
+    logger.info(message.substring(0, message.lastIndexOf('\n')));
+  },
+};
 
-export default logger;
+export { logger, stream };

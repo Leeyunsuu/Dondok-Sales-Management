@@ -38,7 +38,7 @@
   },
   "scripts": {
     "dev": "nodemon --exec ts-node src/bin/www.ts",
-    "copy-files": "cp -r src/public/ dist/public/ && cp -r src/views/ dist/views/ && cp -r src/routes/ dist/routes/ && cp -r src/models/ dist/models/ && cp -r src/config/ dist/config/",
+    "copy-files": "cp -r src/public/ dist/public/ && cp -r src/views/ dist/views/ && cp -r src/models/ dist/models/",
     "build": "tsc && npm run copy-files",
     "start": "node dist/bin/www.js"
   },

@@ -1,25 +1,24 @@
-'use strict';
-//Logger
-const logger = require('../../config/logger');
+import { Request, Response } from 'express';
+import { logger } from '../../config/logger';
 
 //Models
 const User = require('../../models/user');
 const Sales = require('../../models/sales');
 
 const output = {
-  home: (req, res) => {
+  home: (req: Request, res: Response) => {
     res.render('home/index');
   },
 
-  login: (req, res) => {
+  login: (req: Request, res: Response) => {
     res.render('home/login');
   },
 
-  finder: (req, res) => {
+  finder: (req: Request, res: Response) => {
     res.render('home/finder');
   },
 
-  table: (req, res) => {
+  table: (req: Request, res: Response) => {
     res.render('home/table', {
       user: req.session.userName,
     });
@@ -28,7 +27,7 @@ const output = {
 
 const process = {
   post: {
-    login: async (req, res) => {
+    login: async (req: Request, res: Response) => {
       const user = new User(req.body, req.session); //constructer(body)로 전달
       const response = await user.login(); //함수 실행
       if (response.success) {
@@ -42,20 +41,20 @@ const process = {
       }
     },
 
-    register: async (req, res) => {
+    register: async (req: Request, res: Response) => {
       const user = new User(req.body); //constructer(body)로 전달
       const response = await user.register(); //함수 실행
       if (response.err) logger.error(`${response.err}`);
       return res.json(response);
     },
 
-    finder: async (req, res) => {
+    finder: async (req: Request, res: Response) => {
       const userInfo = new User(req.body);
       const response = await userInfo.finder();
       return res.json(response);
     },
 
-    sales: async (req, res) => {
+    sales: async (req: Request, res: Response) => {
       //생각중인 것 table schema month, days, sales, userId(one to many)
       const salesInfo = new Sales(req, res);
       const response = await salesInfo.inputSales();
@@ -63,7 +62,7 @@ const process = {
     },
   },
   get: {
-    monthInfo: async (req, res) => {
+    monthInfo: async (req: Request, res: Response) => {
       const salesInfo = new Sales(req, res);
       const response = await salesInfo.table();
       const salesOfMonth = await salesInfo.processSalesData(response.data);
@@ -73,7 +72,7 @@ const process = {
         if (response.err) logger.error(`${response.err}`);
       }
     },
-    dayInfo: async (req, res) => {
+    dayInfo: async (req: Request, res: Response) => {
       const salesInfo = new Sales(req, res);
       const response = await salesInfo.dayInfo();
       if (response.success) {
@@ -89,7 +88,7 @@ const process = {
 };
 
 const auth = {
-  logout: (req, res) => {
+  logout: (req: Request, res: Response) => {
     req.session.destroy((err) => {
       if (err) logger.error(`${err}`);
       res.redirect('/login');
@@ -97,8 +96,4 @@ const auth = {
   },
 };
 
-module.exports = {
-  output,
-  process,
-  auth,
-};
+export { output, process, auth };
