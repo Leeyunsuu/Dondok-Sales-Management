@@ -13,14 +13,14 @@ router.get('/finder', output.finder);
 router.get('/table', output.table);
 
 router.get('/logout', auth.logout);
-router.get('/table/:year/:month', process.get.monthInfo);
-router.get('/table/:year/:month/:day', process.get.dayInfo);
+// router.get('/table/:year/:month', process.get.monthInfo);
+// router.get('/table/:year/:month/:day', process.get.dayInfo);
 
 //POST
 router.post('/login', process.post.login);
 router.post('/register', process.post.register);
 router.post('/finder', process.post.finder);
-router.post('/sales', process.post.sales);
+// router.post('/sales', process.post.sales);
 
 //UPDATE
 

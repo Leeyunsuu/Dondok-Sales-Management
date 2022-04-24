@@ -1,6 +1,7 @@
 // import * as mysql from 'mysql';
 import { createConnection } from 'mysql';
-const logger = require('./logger');
+// const logger = require('./logger');
+import { logger } from './logger';
 
 interface info {
   host: string;
