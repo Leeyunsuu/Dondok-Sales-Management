@@ -4,7 +4,7 @@
 
     /* Language and Environment */
     // "target": "es5" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-
+    "target": "es2015",
     /* Modules */
     "module": "commonjs" /* Specify what module code is generated. */,
     // "esModuleInterop": true,

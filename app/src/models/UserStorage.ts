@@ -44,7 +44,7 @@ export class UserStorage {
       const sql =
         'INSERT INTO user(userid, username, psword, email) VALUES (?,?,?,?);';
       const userinfo = [userid, userid, psword, email];
-      con.query(sql, userinfo, (err) => {
+      con.query(sql, userinfo, (err: MysqlError | null) => {
         if (err) {
           reject(err);
         } else resolve({ success: true });
