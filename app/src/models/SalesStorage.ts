@@ -11,7 +11,7 @@ export interface Data {
   month: number;
   days: number;
   sales: number;
-  userId: number;
+  userId: number | undefined;
 }
 
 export class SalesStorage {
@@ -27,7 +27,7 @@ export class SalesStorage {
   }
 
   static GetSalesMonth(
-    userid: number,
+    userid: number | undefined,
     year: number,
     month: number
   ): Promise<Data[]> {
@@ -47,7 +47,7 @@ export class SalesStorage {
   }
 
   static GetSalesDay(
-    userid: number,
+    userid: number | undefined,
     year: number,
     month: number,
     days: number
@@ -68,7 +68,7 @@ export class SalesStorage {
   }
 
   static SaveSalesInfo(
-    userid: number,
+    userid: number | undefined,
     year: number,
     month: number,
     days: number,
@@ -87,7 +87,7 @@ export class SalesStorage {
   }
 
   static UpdateSalesInfo(
-    userid: number,
+    userid: number | undefined,
     sales: number,
     year: number,
     month: number,

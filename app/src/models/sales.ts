@@ -4,14 +4,14 @@ interface SalesOfWeek {
   sales: number;
 }
 
-class Sales {
-  public userId: number;
+export class Sales {
+  public userId: number | undefined;
   public year: number;
   public month: number;
   public days: number;
   public sales: number;
   constructor(
-    userId: number,
+    userId: number | undefined,
     year: number,
     month: number,
     days: number,
@@ -125,5 +125,3 @@ class Sales {
     return salesOfWeeks;
   }
 }
-
-module.exports = Sales;

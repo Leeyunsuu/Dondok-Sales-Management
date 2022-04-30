@@ -4,6 +4,7 @@ import { logger } from '../../config/logger';
 
 //Models
 import { User } from '../../models/User';
+import { Sales } from '../../models/sales';
 
 const output = {
   home: (req: Request, res: Response) => {
@@ -56,37 +57,55 @@ const process = {
       return res.json(response);
     },
 
-    // sales: async (req: Request, res: Response) => {
-    //   //생각중인 것 table schema month, days, sales, userId(one to many)
-    //   const salesInfo = new Sales(req, res);
-    //   const response = await salesInfo.inputSales();
-    //   return res.json(response);
-    // },
+    sales: async (req: Request, res: Response) => {
+      //생각중인 것 table schema month, days, sales, userId(one to many)
+      const salesInfo = new Sales(
+        req.session.userId,
+        req.body.year,
+        req.body.month,
+        req.body.days,
+        req.body.sales
+      );
+      const response = await salesInfo.inputSales();
+      return res.json(response);
+    },
   },
-  // get: {
-  //   monthInfo: async (req: Request, res: Response) => {
-  //     const salesInfo = new Sales(req, res);
-  //     const response = await salesInfo.table();
-  //     const salesOfMonth = await salesInfo.processSalesData(response.data);
-  //     response.total = salesOfMonth;
-  //     if (response.success) return res.json(response);
-  //     else {
-  //       if (response.err) logger.error(`${response.err}`);
-  //     }
-  //   },
-  //   dayInfo: async (req: Request, res: Response) => {
-  //     const salesInfo = new Sales(req, res);
-  //     const response = await salesInfo.dayInfo();
-  //     if (response.success) {
-  //       res.render('home/input', {
-  //         user: req.session.userName,
-  //         data: response.data,
-  //       });
-  //     } else {
-  //       if (response.err) logger.error(`${response.err}`);
-  //     }
-  //   },
-  // },
+  get: {
+    monthInfo: async (req: Request, res: Response) => {
+      const salesInfo = new Sales(
+        req.session.userId,
+        req.body.year,
+        req.body.month,
+        req.body.days,
+        req.body.sales
+      );
+      const response = await salesInfo.table();
+      const salesOfMonth = await salesInfo.processSalesData(response.data);
+      response.total = salesOfMonth;
+      if (response.success) return res.json(response);
+      else {
+        if (response.err) logger.error(`${response.err}`);
+      }
+    },
+    dayInfo: async (req: Request, res: Response) => {
+      const salesInfo = new Sales(
+        req.session.userId,
+        req.body.year,
+        req.body.month,
+        req.body.days,
+        req.body.sales
+      );
+      const response = await salesInfo.dayInfo();
+      if (response.success) {
+        res.render('home/input', {
+          user: req.session.userName,
+          data: response.data,
+        });
+      } else {
+        if (response.err) logger.error(`${response.err}`);
+      }
+    },
+  },
 };
 
 const auth = {
