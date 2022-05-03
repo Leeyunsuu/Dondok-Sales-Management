@@ -1,10 +1,19 @@
 import { Request, Response } from 'express';
 import { logger } from '../../config/logger';
 // import session from 'express-session';
+import requestIp from 'request-ip';
 
 //Models
 import { User } from '../../models/User';
 import { Sales } from '../../models/sales';
+
+declare module 'express-session' {
+  interface SessionData {
+    userId: number;
+    userName: string;
+    is_logined: boolean;
+  }
+}
 
 const output = {
   home: (req: Request, res: Response) => {
@@ -71,31 +80,50 @@ const process = {
     },
   },
   get: {
-    monthInfo: async (req: Request, res: Response) => {
+    monthInfo: async (
+      req: Request<{ year: number; month: number }>,
+      res: Response
+    ) => {
       const salesInfo = new Sales(
         req.session.userId,
-        req.body.year,
-        req.body.month,
-        req.body.days,
-        req.body.sales
+        req.params.year,
+        req.params.month
       );
-      const response = await salesInfo.table();
-      const salesOfMonth = await salesInfo.processSalesData(response.data);
-      response.total = salesOfMonth;
-      if (response.success) return res.json(response);
-      else {
+      const response = await salesInfo.monthInfo();
+      // console.log(response);
+      if (response.success) {
+        const salesOfMonth = Sales.processSalesData_Month(response.data);
+        const salesOfWeek = Sales.processSalesData_Weeks(
+          req.params.year,
+          req.params.month,
+          response.data
+        );
+        // console.log(salesOfMonth);
+        // console.log(salesOfWeek);
+        return res.json({
+          success: response.success,
+          data: response.data,
+          total: salesOfMonth,
+          week: salesOfWeek,
+        });
+      } else {
         if (response.err) logger.error(`${response.err}`);
       }
+      return res.json(response);
     },
-    dayInfo: async (req: Request, res: Response) => {
+    dayInfo: async (
+      req: Request<{ year: number; month: number; days: number }>,
+      res: Response
+    ) => {
+      console.log(req.params);
       const salesInfo = new Sales(
         req.session.userId,
-        req.body.year,
-        req.body.month,
-        req.body.days,
-        req.body.sales
+        req.params.year,
+        req.params.month,
+        req.params.days
       );
       const response = await salesInfo.dayInfo();
+      console.log(response);
       if (response.success) {
         res.render('home/input', {
           user: req.session.userName,
@@ -105,6 +133,24 @@ const process = {
         if (response.err) logger.error(`${response.err}`);
       }
     },
+  },
+  put: {
+    sales: async (req: Request, res: Response) => {
+      const salesInfo = new Sales(
+        req.session.userId,
+        req.body.year,
+        req.body.month,
+        req.body.days,
+        req.body.sales
+      );
+      const response = await salesInfo.updateSales();
+      if (response.err) logger.error(`${response.err}`);
+      return res.json(response);
+    },
+  },
+  test: async (req: Request, res: Response) => {
+    logger.info(`${requestIp.getClientIp(req)}`);
+    return res.json('error');
   },
 };
 

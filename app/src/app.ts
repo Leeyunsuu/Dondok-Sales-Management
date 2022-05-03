@@ -1,8 +1,9 @@
 //모듈
 import * as dotenv from 'dotenv';
 dotenv.config();
-import * as express from 'express';
-import * as morgan from 'morgan';
+import express from 'express';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 import { stream } from './config/logger';
 
 const app: express.Application = express();
@@ -16,6 +17,7 @@ import { sessionModule } from './config/session';
 //앱 세팅
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
+app.use(cookieParser());
 app.use(express.static(`${__dirname}/public`));
 
 //Middleware

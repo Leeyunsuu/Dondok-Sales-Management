@@ -7,7 +7,7 @@
     "target": "es2015",
     /* Modules */
     "module": "commonjs" /* Specify what module code is generated. */,
-    // "esModuleInterop": true,
+    "esModuleInterop": true,
     "sourceMap": true,
 
     /* Emit */

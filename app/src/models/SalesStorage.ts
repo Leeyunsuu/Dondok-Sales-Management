@@ -50,7 +50,7 @@ export class SalesStorage {
     userid: number | undefined,
     year: number,
     month: number,
-    days: number
+    days?: number
   ): Promise<Data[]> {
     return new Promise((resolve, reject) => {
       const sql =
@@ -71,8 +71,8 @@ export class SalesStorage {
     userid: number | undefined,
     year: number,
     month: number,
-    days: number,
-    sales: number
+    days?: number,
+    sales?: number
   ): Promise<{}> {
     return new Promise((resolve, reject) => {
       const sql =
@@ -88,10 +88,10 @@ export class SalesStorage {
 
   static UpdateSalesInfo(
     userid: number | undefined,
-    sales: number,
     year: number,
     month: number,
-    days: number
+    days?: number,
+    sales?: number
   ): Promise<{}> {
     return new Promise((resolve, reject) => {
       const sql =

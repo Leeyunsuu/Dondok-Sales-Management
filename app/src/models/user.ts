@@ -52,10 +52,10 @@ export class User {
   async finder() {
     const body = this.body;
     const id: string = body.id;
-    const { userid, psword, email } = await UserStorage.GetUserInfo(id);
-    if (userid) {
-      if (userid === body.id && email === body.emailAdress) {
-        return { success: true, msg: `비밀번호는 ${psword}입니다.` };
+    const user = await UserStorage.GetUserInfo(id);
+    if (user.userid) {
+      if (user.userid === body.id && user.email === body.emailAdress) {
+        return { success: true, msg: `비밀번호는 ${user.psword}입니다.` };
       }
       return { success: false, msg: '이메일을 확인해주세요.' };
     }

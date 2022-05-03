@@ -14,6 +14,7 @@ const renderCalendar = async () => {
 
   const response = await SalesData(viewYear, viewMonth);
   outputMonth.innerHTML = response.total;
+  const salesOfWeek = response.week;
 
   //지난달의 마지막 날의 Date 객체
   const prevLast = new Date(viewYear, viewMonth - 1, 0); //2022년 3월 31일
@@ -54,8 +55,6 @@ const renderCalendar = async () => {
   const dailyReturns__text = '일일 매출액 : ';
 
   //주간 매출액을 일요일만 뜨게 해야함.
-  const weeklyReturns__text = '주간 매출액 : ';
-  const weeklyReturns__figure = '';
 
   //지난 날짜, 다음 날짜 흐리게
   const firstDateIndex = dates.indexOf(1); //5 (1일)
@@ -63,7 +62,6 @@ const renderCalendar = async () => {
   dates.forEach((date, i) => {
     const condition =
       i >= firstDateIndex && i < lastDateIndex + 1 ? 'this' : 'other';
-    // ProcessSalesData(data.salesData, viewYear, viewMonth);
     const salesOfDay = response.data
       .filter((item) => {
         if (
@@ -75,11 +73,26 @@ const renderCalendar = async () => {
         }
       })
       .map((item) => item.sales);
+    //주간 매출액
+    let weeklyReturns__text = '주간 매출액 : ';
     const dailyReturns__figure = [salesOfDay[0]];
+    const weeklyReturns__figure = salesOfWeek
+      .filter((item) => {
+        if (item.week === date) {
+          return item;
+        }
+      })
+      .map((item) => item.sales);
+    console.log(weeklyReturns__figure[0]);
+
+    if (weeklyReturns__figure[0] === undefined) {
+      weeklyReturns__text = '';
+    }
+    console.log(weeklyReturns__text);
 
     dates[
       i
-    ] = `<a href="/table/${viewYear}/${viewMonth}/${date}" id=dayInfo class="date ${condition}" onclick="dayInfo(${viewYear},${viewMonth},${date},)">
+    ] = `<a href="/table/${viewYear}/${viewMonth}/${date}" id=dayInfo class="date ${condition}" >
       <span class="${condition}">${date}</span>
       <div class="daily-returns returns">
           <span class="daily-returns__title ${condition}">${dailyReturns__text}</span>
@@ -134,7 +147,7 @@ function SalesData(year, month) {
       if (res.success) {
         return res;
       } else {
-        alert(res.msg);
+        location.href = '/login';
       }
     })
     .catch((err) => {
