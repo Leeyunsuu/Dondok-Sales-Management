@@ -92,9 +92,11 @@ export class Sales {
     }
   }
 
-  static processSalesData_Month(data: Data[] | undefined) {
+  static processSalesData_Month(data: Data[] | undefined): number | string {
     if (!data) {
       console.log('데이터가 없음');
+      const msg = 'nothing data';
+      return msg;
     } else {
       const salesOfMonth: number = data.reduce((result: number, info: Data) => {
         result = result + info.sales;
@@ -108,9 +110,11 @@ export class Sales {
     year: number,
     month: number,
     data: Data[] | undefined
-  ): SalesOfWeek[] | void {
+  ): SalesOfWeek[] | string {
     if (!data) {
       console.log('데이터가 없음');
+      const msg = 'nothing data';
+      return msg;
     } else {
       const salesOfWeeks: SalesOfWeek[] = [];
       const thisLast: Date = new Date(year, month, 0);
